@@ -2,6 +2,10 @@
 
 Casa Lagos is an independent planner concept for Lagos Life homes. It reflects the in-game above view, tile grid, two-floor controls, furniture footprints, and Game Naira price display. It does not control the game or sync plans to a Lagos Life account.
 
+## GitHub Pages
+
+The `main` branch publishes a static website to GitHub Pages. In that version, saved plans stay in the visitor's browser only. GitHub Pages cannot run the Python server or database, so it does not provide user accounts, cross-device sync, or owner login alerts. It does not ask visitors for passwords. The separate Render configuration below is for the optional backend deployment.
+
 ## Run locally
 
 Requires Python 3.10 or newer; no third-party Python packages are needed.
