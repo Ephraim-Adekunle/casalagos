@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local Casa Lagos companion prototype. Standard library only; binds to localhost."""
+"""Casa Lagos companion app. Standard library only."""
 from __future__ import annotations
 import hashlib, hmac, json, os, re, secrets, sqlite3, time
 from datetime import datetime, timezone
@@ -10,8 +10,8 @@ from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parent
 DB_PATH = Path(os.environ.get("CASA_DB_PATH", ROOT / "data" / "casa_lagos.sqlite3"))
-HOST = os.environ.get("CASA_HOST", "127.0.0.1")
-PORT = int(os.environ.get("CASA_PORT", "8766"))
+HOST = os.environ.get("HOST", os.environ.get("CASA_HOST", "127.0.0.1"))
+PORT = int(os.environ.get("PORT", os.environ.get("CASA_PORT", "8766")))
 ITERATIONS = 260_000
 SESSION_SECONDS = 60 * 60 * 24 * 14
 PRICES = {"calendar":300,"bucket":400,"chair":500,"poster":600,"plant":700,"sofa":10200,"rug":2600,"adire":5400,"gold_sofa":55000,"persian":4500000,"lion":50000000}
@@ -128,7 +128,7 @@ class Handler(BaseHTTPRequestHandler):
         with db() as con:
             con.execute("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)",(token_hash,user_id,expires))
             con.execute("INSERT INTO activity(user_id,event,created_at) VALUES(?,?,?)",(user_id,"login",now_iso()))
-        secure = "; Secure" if os.environ.get("CASA_HTTPS") == "1" else ""
+        secure = "; Secure" if os.environ.get("CASA_HTTPS") == "1" or os.environ.get("RENDER_EXTERNAL_URL") else ""
         header = f"casa_session={token}; Path=/; HttpOnly; SameSite=Lax; Max-Age={SESSION_SECONDS}{secure}"
         return [("Set-Cookie",header)]
 

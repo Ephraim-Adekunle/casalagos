@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: casalagos
+    runtime: python
+    plan: starter
+    buildCommand: python --version
+    startCommand: python server.py
+    healthCheckPath: /api/health
+    disk:
+      name: casalagos-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: CASA_DB_PATH
+        value: /var/data/casa_lagos.sqlite3
+      - key: CASA_ADMIN_TOKEN
+        generateValue: true

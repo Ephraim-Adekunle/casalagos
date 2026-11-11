@@ -1,4 +1,4 @@
-# Casa Lagos prototype
+# Casa Lagos
 
 Casa Lagos is an independent planner concept for Lagos Life homes. It reflects the in-game above view, tile grid, two-floor controls, furniture footprints, and Game Naira price display. It does not control the game or sync plans to a Lagos Life account.
 
@@ -15,7 +15,13 @@ Open <http://127.0.0.1:8766>. The database is created at `data/casa_lagos.sqlite
 
 Open <http://127.0.0.1:8766/admin.html> and enter the same `CASA_ADMIN_TOKEN` value to view the most recent Casa Lagos logins. If the token is not set when starting the server, owner activity is disabled. Use a different, unique password for every Casa Lagos account; never reuse a Lagos Life password.
 
-The server binds to `127.0.0.1` by default and is not an internet deployment. Before making it public, the owner needs production hosting with HTTPS, a managed database, secure secret storage, account recovery and rate limits, privacy/terms pages, and a review of Vatar's developer integration requirements. Do not expose this development server directly to the internet.
+## Deploy to Render
+
+The repository includes a `render.yaml` Blueprint. In Render, create a Blueprint from this public GitHub repository and review the plan before confirming. This configuration uses an always-on Starter web service and a 1 GB persistent disk for SQLite. It sets the admin token as a generated secret. Render web services provide an HTTPS `onrender.com` address.
+
+The app reads Render's `PORT`, binds to `0.0.0.0`, and sets Secure session cookies when served by Render. The persistent disk is required because Render filesystems are otherwise temporary. Render currently lists persistent disk storage at $0.25/GB/month; the Starter web-service compute price is currently $7/month, so the configured setup is about $7.25/month before any additional usage or taxes. Check the dashboard's current estimate before creating the service.
+
+Before inviting public users, add account recovery, login rate limits, a privacy notice/terms, and review Vatar's developer integration requirements. Casa Lagos uses its own accounts and does not collect Lagos Life credentials or control the game.
 
 ## Game references
 
